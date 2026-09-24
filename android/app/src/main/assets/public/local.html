@@ -15,23 +15,23 @@
             </div>
             <div class="turn-indicator" id="turn-text" style="font-size: 12px; font-weight: 800; color: #ffd700;">SELECT PLAYERS</div>
         </div>
-        <div class="hud-row">
+        <div class="hud-row" id="hud-top-row">
             <div class="player-corner" id="corner-red">
                 <div class="player-card" id="profile-red">
-                    <div class="avatar red-bg">1</div>
+                    <div class="avatar red-bg" id="avatar-red">1</div>
                     <div class="player-info">
-                        <div class="player-name">Player 1</div>
-                        <div class="player-status-tag red-text">Red</div>
+                        <div class="player-name" id="name-red">Player 1</div>
+                        <div class="player-status-tag red-text" id="tag-red">Red</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-red" onclick="handleCornerDiceClick('red')">🎲</div>
             </div>
             <div class="player-corner reverse" id="corner-green">
                 <div class="player-card" id="profile-green">
-                    <div class="avatar green-bg">2</div>
+                    <div class="avatar green-bg" id="avatar-green">2</div>
                     <div class="player-info">
-                        <div class="player-name">Player 2</div>
-                        <div class="player-status-tag green-text">Green</div>
+                        <div class="player-name" id="name-green">Player 2</div>
+                        <div class="player-status-tag green-text" id="tag-green">Green</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-green" onclick="handleCornerDiceClick('green')">🎲</div>
@@ -40,23 +40,23 @@
         <div class="board-container">
             <div id="ludo-board"></div>
         </div>
-        <div class="hud-row">
+        <div class="hud-row" id="hud-bottom-row">
             <div class="player-corner" id="corner-blue">
                 <div class="player-card" id="profile-blue">
-                    <div class="avatar blue-bg">4</div>
+                    <div class="avatar blue-bg" id="avatar-blue">4</div>
                     <div class="player-info">
-                        <div class="player-name">Player 4</div>
-                        <div class="player-status-tag blue-text">Blue</div>
+                        <div class="player-name" id="name-blue">Player 4</div>
+                        <div class="player-status-tag blue-text" id="tag-blue">Blue</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-blue" onclick="handleCornerDiceClick('blue')">🎲</div>
             </div>
             <div class="player-corner reverse" id="corner-yellow">
                 <div class="player-card" id="profile-yellow">
-                    <div class="avatar yellow-bg">3</div>
+                    <div class="avatar yellow-bg" id="avatar-yellow">2</div>
                     <div class="player-info">
-                        <div class="player-name">Player 3</div>
-                        <div class="player-status-tag yellow-text">Yellow</div>
+                        <div class="player-name" id="name-yellow">Player 2</div>
+                        <div class="player-status-tag yellow-text" id="tag-yellow">Yellow</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-yellow" onclick="handleCornerDiceClick('yellow')">🎲</div>

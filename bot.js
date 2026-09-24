@@ -74,12 +74,12 @@ function selectBotOpponentCount(count) {
 function openBotFastTrackModal() {
     startBotMatchConfirmed(false);
 }
-function startBotMatchConfirmed(unlockOneToken = false) {
+function startBotMatchConfirmed(unlockOneToken = true) {
     const startupModal = document.getElementById("startup-modal");
     if (startupModal) startupModal.classList.add("hidden");
 
     let pGreen = { name: "Player 2", tag: "Lvl 28 • 🇮🇳", avatar: "🧔" };
-    let pYellow = { name: "Player 3", tag: "Lvl 19 • 🇮🇳", avatar: "👩" };
+    let pYellow = { name: "Player 2", tag: "Lvl 19 • 🇮🇳", avatar: "👩" };
     let pBlue = { name: "Player 4", tag: "Lvl 34 • 🇮🇳", avatar: "👦" };
 
     if (window.RealisticPersonas) {
@@ -123,9 +123,11 @@ function startBotMatchConfirmed(unlockOneToken = false) {
     winnersList = [];
     totalPlayersInGame = activePlayers.length;
     ['red', 'green', 'yellow', 'blue'].forEach(c => {
+        let corner = document.getElementById(`corner-${c}`);
         let card = document.getElementById(`profile-${c}`);
         let dice = document.getElementById(`dice-${c}`);
         let nameEl = document.getElementById(`name-${c}`);
+        let baseEl = document.getElementById(`base-${c}`);
         if (nameEl && playersData[c]) nameEl.innerText = playersData[c].name;
         
         let tagEl = card ? card.querySelector('.player-status-tag') : null;
@@ -138,12 +140,23 @@ function startBotMatchConfirmed(unlockOneToken = false) {
         }
 
         if (activePlayers.includes(c)) {
-            card.style.opacity = "0.5";
-            dice.classList.add("visible");
-            dice.innerText = "🎲";
+            if (corner) corner.style.display = "flex";
+            if (card) card.style.opacity = "0.5";
+            if (dice) {
+                dice.classList.add("visible");
+                dice.innerText = "🎲";
+            }
+            if (baseEl) {
+                baseEl.classList.remove('base-inactive');
+                baseEl.style.opacity = "1";
+            }
         } else {
-            card.style.opacity = "0.15";
-            dice.classList.remove("visible");
+            if (corner) corner.style.display = "none";
+            if (dice) dice.classList.remove("visible");
+            if (baseEl) {
+                baseEl.classList.add('base-inactive');
+                baseEl.style.opacity = "0.22";
+            }
         }
     });
     currentPlayerIndex = 0;
@@ -518,8 +531,8 @@ function renderTokenPosition(token) {
     }
     if (targetEl) {
         const rect = targetEl.getBoundingClientRect();
-        const left = (rect.left - boardRect.left) + (rect.width / 2) - 10;
-        const top = (rect.top - boardRect.top) + (rect.height / 2) - 10;
+        const left = (rect.left - boardRect.left) + (rect.width / 2) - 12;
+        const top = (rect.top - boardRect.top) + (rect.height / 2) - 12;
         token.element.style.left = `${left}px`;
         token.element.style.top = `${top}px`;
     }
@@ -546,6 +559,7 @@ function createBoard() {
     bases.forEach(b => {
         let baseEl = document.createElement("div");
         baseEl.classList.add("base", b.class);
+        baseEl.id = `base-${b.color}`;
         let inner = document.createElement("div");
         inner.classList.add("inner-base");
         for (let i = 0; i < 4; i++) {
@@ -593,15 +607,23 @@ function spawnTokens(unlockOneToken) {
             let tokenEl = document.createElement("div");
             tokenEl.classList.add("token", `token-${color}`);
             tokenEl.id = `token-${color}-${i}`;
-            tokenEl.onclick = () => {
+            tokenEl.setAttribute("data-color", color);
+            tokenEl.setAttribute("data-index", i);
+            tokenEl.innerHTML = `<span class="token-pip">${i + 1}</span>`;
+            tokenEl.onclick = (e) => {
+                e.stopPropagation();
                 if (color === 'red') {
                     moveToken(color, i);
                 }
             };
-            let initialStep = -1;
-            if (unlockOneToken && i === 0 && color === 'red') {
-                initialStep = 0;
-            }
+            tokenEl.addEventListener("touchend", (e) => {
+                if (color === 'red') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    moveToken(color, i);
+                }
+            }, { passive: false });
+            let initialStep = (unlockOneToken && i === 0) ? 0 : -1;
             let tokenObj = { color, index: i, step: initialStep, element: tokenEl };
             allTokens[color].push(tokenObj);
             const board = document.getElementById("ludo-board");
