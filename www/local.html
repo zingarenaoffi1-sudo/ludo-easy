@@ -93,17 +93,6 @@
                 <button class="menu-btn" onclick="window.location.href='index.html'" style="width: 100%; padding: 10px;">Back to Lobby</button>
             </div>
         </div>
-        <div id="fast-track-modal" class="modal hidden">
-            <div class="modal-content">
-                <div style="font-size: 36px; margin-bottom: 6px;">⚡</div>
-                <h2 style="color: #ffd700; margin-bottom: 6px; font-weight: 900;">UNLOCK 1 TOKEN?</h2>
-                <p style="color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 18px;">
-                    Watch a short rewarded ad to start with 1 token already out of base for all players, or play normal!
-                </p>
-                <button id="local-unlock-ad-btn" class="ultra-roll-btn" onclick="unlockTokenViaAd()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(180deg, #ec4899, #f43f5e); color: white;">📺 Watch Ad & Unlock Token</button>
-                <button class="ultra-roll-btn" onclick="startSessionNormally()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(180deg, #22c55e, #16a34a); color: white;">▶ Play Normal</button>
-            </div>
-        </div>
         <div id="victory-modal" class="modal hidden">
             <div class="modal-content">
                 <div style="font-size: 40px; margin-bottom: 6px;">🏆</div>
@@ -115,22 +104,6 @@
         </div>
     </div>
     <script src="capacitor.js"></script>
-    <script src="unity-ads-config.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.initZingBannerAd) {
-                window.initZingBannerAd({ delay: 1500 });
-            }
-        });
-        async function playInterstitialAd() {
-            if (!navigator.onLine) {
-                return;
-            }
-            if (typeof window.showZingInterstitialAd === 'function') {
-                await window.showZingInterstitialAd();
-            }
-        }
-    </script>
     <script src="how-to-play.js"></script>
     <script src="ludo-music.js"></script>
     <script src="ludo-king-menu.js"></script>

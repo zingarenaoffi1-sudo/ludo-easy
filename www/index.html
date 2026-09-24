@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ludo</title>
-    <meta name="description" content="Multiplayer and offline Ludo game with local offline play, online multiplayer, and pro competition modes.">
+    <meta name="description" content="Classic Ludo board game featuring VS Computer and Pass and Play offline multiplayer modes.">
     <meta property="og:title" content="Ludo">
-    <meta property="og:description" content="Multiplayer and offline Ludo game with local offline play, online multiplayer, and pro competition modes.">
+    <meta property="og:description" content="Classic Ludo board game featuring VS Computer and Pass and Play offline multiplayer modes.">
     <link rel="stylesheet" href="style.css">
     <style id="splash-critical-css">
         .ludo-splash-overlay {
@@ -38,7 +38,7 @@
     </style>
 </head>
 <body style="margin: 0; background: #080d1a;">
-    <!-- 0ms Instant Royal Splash Screen -->
+    <!-- Splash Screen -->
     <div id="ludo-royal-splash" class="ludo-splash-overlay">
         <div class="ludo-splash-card">
             <div class="ludo-emblem-wrap">
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="splash-brand-title">LUDO</div>
-            <div class="splash-brand-subtitle" id="splash-status-title">ZING ARENA</div>
+            <div class="splash-brand-subtitle" id="splash-status-title">OFFLINE ARENA</div>
             <div class="splash-dice-scene">
                 <div class="splash-dice-cube" id="splash-dice-cube">
                     <div class="s-face s-front">⚄</div>
@@ -84,29 +84,34 @@
             <div class="splash-progress-track">
                 <div class="splash-progress-fill" id="splash-progress-bar" style="width: 20%;"></div>
             </div>
-            <div class="splash-status-text" id="splash-status-text">Starting Zing Arena...</div>
+            <div class="splash-status-text" id="splash-status-text">Starting Game Engine...</div>
         </div>
     </div>
-    <div id="game-wrapper" style="justify-content: flex-start; min-height: 100vh; padding: 65px 14px 24px 14px;">
-        <div style="width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+
+    <!-- Main Lobby Wrapper -->
+    <div id="game-wrapper" style="justify-content: flex-start; min-height: 100vh; padding: 50px 16px 24px 16px;">
+        <!-- Top Navigation -->
+        <div style="width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="24" height="20" viewBox="0 0 32 28" fill="none" style="filter: drop-shadow(0 0 6px rgba(255,215,0,0.8));">
+                <svg width="26" height="22" viewBox="0 0 32 28" fill="none" style="filter: drop-shadow(0 0 8px rgba(255,215,0,0.8));">
                     <polygon points="16,2 19,9 27,10 21,15 23,23 16,19 9,23 11,15 5,10 13,9" fill="#ffd700"/>
                     <circle cx="16" cy="12" r="2.5" fill="#ef4444"/>
                 </svg>
-                <span style="font-size: 14px; font-weight: 900; color: #ffd700; letter-spacing: 1px;">ZING ARENA</span>
+                <span style="font-size: 15px; font-weight: 900; color: #ffd700; letter-spacing: 1.5px;">LUDO</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <button class="ludo-music-toggle-btn" onclick="LudoMusic.toggleMute()">🎵 Music ON</button>
                 <button onclick="HowToPlayGuide.openModal()" style="display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; border: 2px solid #ffd700; background: rgba(30, 41, 59, 0.95); color: #ffd700; font-size: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.6); transition: transform 0.2s;">
                     <span style="font-size: 13px;">📖</span>
-                    <span>How to Play</span>
+                    <span>Rules</span>
                 </button>
             </div>
         </div>
-        <div class="lobby-hero" style="margin-bottom: 22px;">
-            <div style="margin-bottom: 6px;">
-                <svg width="64" height="52" viewBox="0 0 64 50" fill="none" style="filter: drop-shadow(0 0 16px rgba(255,215,0,0.85));">
+
+        <!-- Hero Title Banner -->
+        <div class="lobby-hero" style="margin-bottom: 24px;">
+            <div style="margin-bottom: 8px;">
+                <svg width="68" height="56" viewBox="0 0 64 50" fill="none" style="filter: drop-shadow(0 0 16px rgba(255,215,0,0.85));">
                     <defs>
                         <linearGradient id="hero-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stop-color="#fff59d"/>
@@ -119,96 +124,48 @@
                     <path d="M14 42h36v3c0 2-2 4-4 4H18c-2 0-4-2-4-4v-3z" fill="#d97706"/>
                 </svg>
             </div>
-            <h1 class="lobby-title" style="margin: 0; font-size: 30px; font-weight: 900; color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.6); letter-spacing: 2px;">ZING ARENA</h1>
-            <p class="lobby-subtitle" style="font-size: 12px; color: #94a3b8; margin-top: 4px; font-weight: 700; letter-spacing: 0.5px;">FAST 4-PLAYER DICE BOARD GAME</p>
+            <h1 class="lobby-title" style="margin: 0; font-size: 32px; font-weight: 900; color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.6); letter-spacing: 2px;">LUDO</h1>
+            <p class="lobby-subtitle" style="font-size: 12px; color: #94a3b8; margin-top: 4px; font-weight: 700; letter-spacing: 0.5px;">CLASSIC TABLETOP DICE BOARD GAME</p>
         </div>
+
+        <!-- 4 Arena Cards (Original Design) -->
         <div class="arena-grid">
-            <div class="arena-card computer" onclick="window.location.href='bot.html'">
-                <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                        <rect x="8" y="14" width="32" height="26" rx="8" fill="url(#grad-bot)" stroke="#c084fc" stroke-width="2"/>
-                        <circle cx="18" cy="25" r="3.5" fill="#38bdf8"/>
-                        <circle cx="30" cy="25" r="3.5" fill="#38bdf8"/>
-                        <path d="M20 33h8" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M24 14V6m-3 0h6" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
-                        <rect x="3" y="22" width="5" height="10" rx="2" fill="#a855f7"/>
-                        <rect x="40" y="22" width="5" height="10" rx="2" fill="#a855f7"/>
-                        <defs>
-                            <linearGradient id="grad-bot" x1="8" y1="14" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#7e22ce"/>
-                                <stop offset="1" stop-color="#3b0764"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-                <div class="card-title">VS COMPUTER</div>
-                <div class="card-sub">Smart AI Bots</div>
-            </div>
-            <div class="arena-card local" onclick="window.location.href='local.html'">
-                <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                        <circle cx="18" cy="18" r="7" fill="url(#grad-user1)" stroke="#86efac" stroke-width="2"/>
-                        <path d="M8 38c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="#86efac" stroke-width="2.5" fill="url(#grad-user1)" stroke-linecap="round"/>
-                        <circle cx="32" cy="16" r="6" fill="url(#grad-user2)" stroke="#4ade80" stroke-width="2"/>
-                        <path d="M25 36c.5-4 3.5-7 8-7s7.5 3 8 7" stroke="#4ade80" stroke-width="2.5" fill="url(#grad-user2)" stroke-linecap="round"/>
-                        <defs>
-                            <linearGradient id="grad-user1" x1="8" y1="11" x2="28" y2="38" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#22c55e"/>
-                                <stop offset="1" stop-color="#14532d"/>
-                            </linearGradient>
-                            <linearGradient id="grad-user2" x1="25" y1="10" x2="41" y2="36" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#16a34a"/>
-                                <stop offset="1" stop-color="#052e16"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-                <div class="card-title">PASS & PLAY</div>
-                <div class="card-sub">Same Device</div>
-            </div>
-            <div class="arena-card online" onclick="window.location.href='online.html'">
-                <div class="badge-corner">LIVE</div>
-                <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                        <circle cx="24" cy="24" r="18" fill="url(#grad-globe)" stroke="#60a5fa" stroke-width="2.5"/>
-                        <ellipse cx="24" cy="24" rx="8" ry="18" stroke="#93c5fd" stroke-width="2"/>
-                        <line x1="6" y1="24" x2="42" y2="24" stroke="#93c5fd" stroke-width="2"/>
-                        <path d="M9 15c4.5 3 9.5 4.5 15 4.5s10.5-1.5 15-4.5" stroke="#93c5fd" stroke-width="1.8"/>
-                        <path d="M9 33c4.5-3 9.5-4.5 15-4.5s10.5 1.5 15 4.5" stroke="#93c5fd" stroke-width="1.8"/>
-                        <circle cx="36" cy="12" r="4" fill="#22c55e"/>
-                        <defs>
-                            <linearGradient id="grad-globe" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#2563eb"/>
-                                <stop offset="1" stop-color="#1e3a8a"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+            <!-- Card 1: Online Multiplayer (Under Development) -->
+            <div class="arena-card online" onclick="showDevFeatureModal('Online Multiplayer')">
+                <span class="badge-corner" style="background: #38bdf8; color: #080d1a;">NEXT UPDATE</span>
+                <div class="card-icon">🌐</div>
                 <div class="card-title">ONLINE LUDO</div>
-                <div class="card-sub">Voice & Chat</div>
+                <div class="card-sub">Multiplayer Room</div>
             </div>
-            <div class="arena-card comp" onclick="window.location.href='competition.html'">
-                <div class="badge-corner" style="background: #ef4444; color: #fff;">ESPORTS</div>
-                <div class="card-icon" style="display: flex; justify-content: center; align-items: center;">
-                    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
-                        <path d="M14 8h20v14c0 6-4 11-10 11s-10-5-10-11V8z" fill="url(#grad-trophy)" stroke="#fef08a" stroke-width="2"/>
-                        <path d="M14 13H8a4 4 0 00-4 4v2a6 6 0 006 6h4" stroke="#fde047" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M34 13h6a4 4 0 014 4v2a6 6 0 01-6 6h-4" stroke="#fde047" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M24 33v6m-7 4h14" stroke="#fde047" stroke-width="3" stroke-linecap="round"/>
-                        <defs>
-                            <linearGradient id="grad-trophy" x1="14" y1="8" x2="34" y2="33" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#facc15"/>
-                                <stop offset="1" stop-color="#ca8a04"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-                <div class="card-title">COMPETITION</div>
-                <div class="card-sub">Spin & Tokens</div>
+
+            <!-- Card 2: VS Computer (Active) -->
+            <div class="arena-card computer" onclick="window.location.href='bot.html'">
+                <span class="badge-corner">OFFLINE</span>
+                <div class="card-icon">🤖</div>
+                <div class="card-title">VS COMPUTER</div>
+                <div class="card-sub">Play With Bots</div>
+            </div>
+
+            <!-- Card 3: Pass & Play (Active) -->
+            <div class="arena-card local" onclick="window.location.href='local.html'">
+                <span class="badge-corner" style="background: #4ade80; color: #052e16;">PASS & PLAY</span>
+                <div class="card-icon">👥</div>
+                <div class="card-title">PASS & PLAY</div>
+                <div class="card-sub">Local 2-4 Players</div>
+            </div>
+
+            <!-- Card 4: Tournaments (Under Development) -->
+            <div class="arena-card comp" onclick="showDevFeatureModal('Tournaments & Competition')">
+                <span class="badge-corner" style="background: #f43f5e; color: #fff;">NEXT UPDATE</span>
+                <div class="card-icon">🏆</div>
+                <div class="card-title">TOURNAMENTS</div>
+                <div class="card-sub">Championship Arena</div>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 24px; font-size: 11px; color: #64748b; font-weight: 600; letter-spacing: 0.5px;">
-            Version 2.0 &bull; Secure Anti-Cheat Gaming
+
+        <!-- Version & Legal Footer -->
+        <div style="text-align: center; margin-top: 28px; font-size: 11px; color: #64748b; font-weight: 600; letter-spacing: 0.5px;">
+            Version 2.0 &bull; 100% Offline Gameplay
         </div>
         <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 10px; font-size: 11px; flex-wrap: wrap;">
             <a href="privacy.html" style="color: #94a3b8; text-decoration: none; padding: 4px 6px; transition: color 0.2s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#94a3b8'">Privacy Policy</a>
@@ -218,20 +175,64 @@
             <a href="about.html" style="color: #94a3b8; text-decoration: none; padding: 4px 6px; transition: color 0.2s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#94a3b8'">About Us</a>
         </div>
     </div>
+
+    <!-- Feature In Progress / Sincere Apology Modal -->
+    <div id="dev-feature-modal" class="modal hidden" style="z-index: 999999; display: none;">
+        <div class="modal-content" style="max-width: 380px; width: 92%; padding: 26px 20px; border-radius: 20px; border: 2px solid #ffd700; background: linear-gradient(145deg, #1e293b, #0f172a); text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.85), 0 0 30px rgba(255, 215, 0, 0.25);">
+            <div style="width: 64px; height: 64px; margin: 0 auto 12px; background: rgba(255, 215, 0, 0.12); border: 2px solid #ffd700; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px;">
+                🚀
+            </div>
+            <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;">
+                UPCOMING UPDATE
+            </div>
+            <h2 id="dev-modal-title" style="margin: 0 0 12px 0; font-size: 20px; font-weight: 900; color: #ffd700; text-shadow: 0 0 14px rgba(255,215,0,0.4);">
+                WE ARE DEEPLY SORRY!
+            </h2>
+            <div style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; padding: 16px 14px; margin-bottom: 20px; text-align: left;">
+                <p id="dev-modal-body" style="margin: 0 0 10px 0; font-size: 13px; color: #ffffff; line-height: 1.5; font-weight: 600;">
+                    We sincerely apologize! This mode is currently under active development and will be released in the very next version update.
+                </p>
+                <div style="font-size: 12px; color: #cbd5e1; line-height: 1.5; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 10px;">
+                    In the meantime, please enjoy playing our 100% offline modes: <strong style="color: #c084fc;">VS Computer</strong> and <strong style="color: #4ade80;">Pass & Play</strong> with family and friends!
+                </div>
+            </div>
+            <button onclick="closeDevFeatureModal()" class="ultra-roll-btn" style="width: 100%; padding: 13px 20px; font-size: 14px; font-weight: 900; border-radius: 14px; background: linear-gradient(135deg, #ffd700, #f59e0b); color: #0f172a; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);">
+                Understood 👍
+            </button>
+        </div>
+    </div>
+
+    <!-- How To Play Modal Container -->
     <div id="how-to-play-modal" class="modal hidden"></div>
+
     <script src="capacitor.js"></script>
-    <script src="unity-ads-config.js"></script>
     <script src="how-to-play.js"></script>
     <script src="ludo-music.js"></script>
     <script src="ludo-splash.js"></script>
     <script src="ludo-back-handler.js"></script>
     <script>
+        function showDevFeatureModal(featureName) {
+            const modal = document.getElementById('dev-feature-modal');
+            const body = document.getElementById('dev-modal-body');
+            if (body) {
+                body.innerHTML = `We sincerely apologize, but <strong style="color: #ffd700;">${featureName}</strong> is currently under active development and will be included in the next version update.`;
+            }
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeDevFeatureModal() {
+            const modal = document.getElementById('dev-feature-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             LudoBackHandler.init({ mode: 'dashboard' });
-
-            if (window.initZingBannerAd) {
-                window.initZingBannerAd({ delay: 500 });
-            }
         });
     </script>
 </body>

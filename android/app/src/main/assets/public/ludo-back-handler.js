@@ -30,6 +30,7 @@ const LudoBackHandler = (function () {
     function handleBackPress() {
         const auxiliaryModalIds = [
             'how-to-play-modal',
+            'dev-feature-modal',
             'lk-in-game-menu-modal',
             'lk-chat-modal'
         ];
