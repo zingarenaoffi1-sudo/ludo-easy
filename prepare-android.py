@@ -1,14 +1,61 @@
 import os
 import re
-import shutil
+import json
+
+def sanitize_capacitor_plugins():
+    # Sanitize capacitor.settings.gradle
+    settings_path = "android/capacitor.settings.gradle"
+    if os.path.exists(settings_path):
+        with open(settings_path, "r", encoding="utf-8") as f:
+            settings = f.read()
+        settings = re.sub(r"include ':capacitor-firebase-[^']+'\s*", "", settings)
+        settings = re.sub(r"project\(':capacitor-firebase-[^']+'\)\.projectDir\s*=\s*[^\n]+\s*", "", settings)
+        if "include ':capacitor-app'" not in settings and os.path.exists("node_modules/@capacitor/app"):
+            settings += "\ninclude ':capacitor-app'\nproject(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')\n"
+        with open(settings_path, "w", encoding="utf-8") as f:
+            f.write(settings)
+
+    # Sanitize capacitor.build.gradle
+    cap_build_path = "android/app/capacitor.build.gradle"
+    if os.path.exists(cap_build_path):
+        with open(cap_build_path, "r", encoding="utf-8") as f:
+            cap_build = f.read()
+        cap_build = re.sub(r"implementation project\(':capacitor-firebase-[^']+'\)\s*", "", cap_build)
+        with open(cap_build_path, "w", encoding="utf-8") as f:
+            f.write(cap_build)
+
+    # Sanitize capacitor.plugins.json in assets
+    assets_plugins_path = "android/app/src/main/assets/capacitor.plugins.json"
+    if os.path.exists(assets_plugins_path):
+        try:
+            with open(assets_plugins_path, "r", encoding="utf-8") as f:
+                plugins = json.load(f)
+            plugins = [p for p in plugins if "firebase" not in p.get("pkg", "").lower()]
+            with open(assets_plugins_path, "w", encoding="utf-8") as f:
+                json.dump(plugins, f, indent=2)
+        except Exception:
+            pass
+
+    # Sanitize capacitor.config.json in assets
+    assets_config_path = "android/app/src/main/assets/capacitor.config.json"
+    if os.path.exists(assets_config_path):
+        try:
+            with open(assets_config_path, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+            if "plugins" in cfg and "FirebaseAuthentication" in cfg["plugins"]:
+                del cfg["plugins"]["FirebaseAuthentication"]
+            with open(assets_config_path, "w", encoding="utf-8") as f:
+                json.dump(cfg, f, indent=2)
+        except Exception:
+            pass
 
 def configure_gradle_release():
     root_gradle = "android/build.gradle"
     if os.path.exists(root_gradle):
         with open(root_gradle, "r", encoding="utf-8") as f:
             root = f.read()
-        if "com.google.gms:google-services" not in root:
-            root = root.replace("dependencies {", "dependencies {\n        classpath \"com.google.gms:google-services:4.4.2\"")
+        # Remove any google-services classpath
+        root = re.sub(r'classpath\s+["\']com\.google\.gms:google-services:[^"\']+["\']\s*', '', root)
         with open(root_gradle, "w", encoding="utf-8") as f:
             f.write(root)
 
@@ -17,8 +64,10 @@ def configure_gradle_release():
         with open(app_gradle, "r", encoding="utf-8") as f:
             app = f.read()
 
-        # Remove any unity ads remnants
+        # Remove any unity ads or firebase remnants
         app = re.sub(r'implementation\s+["\']com\.unity3d\.ads:unity-ads:[^"\']+["\']', '', app)
+        app = re.sub(r"apply plugin:\s+['\"]com\.google\.gms\.google-services['\"]\s*", '', app)
+        app = re.sub(r"try\s*\{\s*def servicesJSON = file\('google-services\.json'\)[\s\S]*?\}\s*catch\(Exception e\)\s*\{[\s\S]*?\}", '', app)
 
         if "mavenCentral()" not in app:
             app = app.replace("repositories {", "repositories {\n    mavenCentral()\n    google()")
@@ -55,7 +104,7 @@ android {{
             app += signing_cfg
         with open(app_gradle, "w", encoding="utf-8") as f:
             f.write(app)
-    print("Gradle and release signing configured successfully via prepare-android.py")
+    print("Gradle and release signing configured successfully (100% offline, zero Firebase).")
 
 def main():
     manifest_path = "android/app/src/main/AndroidManifest.xml"
@@ -120,6 +169,7 @@ public class MainActivity extends BridgeActivity {
             with open(vars_path, "w", encoding="utf-8") as f:
                 f.write(vars_content)
 
+    sanitize_capacitor_plugins()
     configure_gradle_release()
 
 if __name__ == "__main__":

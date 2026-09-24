@@ -1,10 +1,6 @@
 [
-	{
-		"pkg": "@capacitor-firebase/authentication",
-		"classpath": "io.capawesome.capacitorjs.plugins.firebase.authentication.FirebaseAuthenticationPlugin"
-	},
-	{
-		"pkg": "@capacitor/app",
-		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
-	}
+  {
+    "pkg": "@capacitor/app",
+    "classpath": "com.capacitorjs.plugins.app.AppPlugin"
+  }
 ]
