@@ -83,53 +83,8 @@ function setLocalGameMode(mode) {
 }
 function choosePlayerCount(count) {
     pendingPlayerCount = count;
-    document.getElementById("startup-modal").classList.add("hidden");
-    document.getElementById("fast-track-modal").classList.remove("hidden");
-}
-function unlockTokenViaAd() {
-    if (!navigator.onLine) {
-        if (typeof window.showAdToast === 'function') {
-            window.showAdToast("⚠️ No internet connection! Please connect to internet to watch video and unlock token.");
-        } else {
-            showToast("⚠️ Internet connection required to watch video and unlock token!");
-        }
-        return;
-    }
-    const btn = document.getElementById("local-unlock-ad-btn");
-    if (btn) btn.innerText = "⏳ Loading Video Ad...";
-    if (typeof window.showZingRewardedAd === 'function') {
-        window.showZingRewardedAd({
-            onReward: () => {
-                if (btn) btn.innerText = "📺 Watch Ad & Unlock Token";
-                document.getElementById("fast-track-modal").classList.add("hidden");
-                startLocalGame(pendingPlayerCount, true);
-            },
-            onFail: () => {
-                if (btn) btn.innerText = "📺 Watch Ad & Unlock Token";
-            }
-        });
-    } else {
-        if (!navigator.onLine) {
-            if (typeof window.showAdToast === 'function') {
-                window.showAdToast("⚠️ No internet connection!");
-            }
-            return;
-        }
-        document.getElementById("fast-track-modal").classList.add("hidden");
-        startLocalGame(pendingPlayerCount, true);
-    }
-}
-async function startSessionNormally() {
-    document.getElementById("fast-track-modal").classList.add("hidden");
-    if (typeof playInterstitialAd === 'function') {
-        try {
-            await playInterstitialAd();
-        } catch (e) {}
-    } else if (typeof window.showZingInterstitialAd === 'function') {
-        try {
-            await window.showZingInterstitialAd();
-        } catch (e) {}
-    }
+    const startupModal = document.getElementById("startup-modal");
+    if (startupModal) startupModal.classList.add("hidden");
     startLocalGame(pendingPlayerCount, false);
 }
 function startLocalGame(playerCount, unlockOneToken) {
@@ -425,9 +380,6 @@ function handlePlayerWin(playerColor) {
 }
 function endMatchWithPodium() {
     soundWin.play().catch(e => {});
-    if (typeof playInterstitialAd === 'function') {
-        playInterstitialAd();
-    }
     let podiumDiv = document.getElementById("victory-podium");
     podiumDiv.innerHTML = "";
     winnersList.forEach((col, idx) => {

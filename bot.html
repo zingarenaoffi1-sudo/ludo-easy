@@ -11,7 +11,7 @@
         <div class="game-header" style="padding: 4px 10px; margin-bottom: 2px; min-height: 38px;">
             <div class="logo-container">
                 <span class="logo-crown" style="font-size: 16px;">👑</span>
-                <span class="logo-text" id="game-mode-title" style="font-size: 14px;">PRO LUDO MATCH</span>
+                <span class="logo-text" id="game-mode-title" style="font-size: 14px;">VS COMPUTER</span>
             </div>
             <div class="turn-indicator" id="turn-text" style="font-size: 12px; font-weight: 800; color: #ffd700;">CHOOSE PLAYERS</div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="player-card" id="profile-red">
                     <div class="avatar red-bg">1</div>
                     <div class="player-info">
-                        <div class="player-name" id="name-red">You</div>
+                        <div class="player-name" id="name-red">Player 1</div>
                         <div class="player-status-tag red-text">You</div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="avatar green-bg">2</div>
                     <div class="player-info">
                         <div class="player-name" id="name-green">Player 2</div>
-                        <div class="player-status-tag green-text">Lvl 28 • 🇮🇳</div>
+                        <div class="player-status-tag green-text">Bot • Lv 28</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-green" onclick="handleCornerDiceClick('green')">🎲</div>
@@ -46,7 +46,7 @@
                     <div class="avatar blue-bg">4</div>
                     <div class="player-info">
                         <div class="player-name" id="name-blue">Player 4</div>
-                        <div class="player-status-tag blue-text">Lvl 34 • 🇮🇳</div>
+                        <div class="player-status-tag blue-text">Bot • Lv 34</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-blue" onclick="handleCornerDiceClick('blue')">🎲</div>
@@ -56,7 +56,7 @@
                     <div class="avatar yellow-bg">3</div>
                     <div class="player-info">
                         <div class="player-name" id="name-yellow">Player 3</div>
-                        <div class="player-status-tag yellow-text">Lvl 19 • 🇮🇳</div>
+                        <div class="player-status-tag yellow-text">Bot • Lv 19</div>
                     </div>
                 </div>
                 <div class="corner-dice" id="dice-yellow" onclick="handleCornerDiceClick('yellow')">🎲</div>
@@ -98,19 +98,8 @@
                         <div style="font-size: 9px; color: #94a3b8;">4 Players</div>
                     </div>
                 </div>
-                <button class="ultra-roll-btn" onclick="openBotFastTrackModal()" style="width: 100%; margin-bottom: 8px; padding: 12px; font-size: 14px;">START MATCH 🚀</button>
+                <button class="ultra-roll-btn" onclick="startBotMatchConfirmed(false)" style="width: 100%; margin-bottom: 8px; padding: 12px; font-size: 14px;">START MATCH 🚀</button>
                 <button class="menu-btn" onclick="window.location.href='index.html'" style="width: 100%; padding: 10px;">Back to Lobby</button>
-            </div>
-        </div>
-        <div id="bot-fast-track-modal" class="modal hidden">
-            <div class="modal-content">
-                <div style="font-size: 36px; margin-bottom: 6px;">⚡</div>
-                <h2 style="color: #ffd700; margin-bottom: 6px; font-weight: 900;">UNLOCK 1 TOKEN?</h2>
-                <p style="color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-bottom: 18px;">
-                    Watch a short rewarded ad to start with 1 token already unlocked out of base, or play normal!
-                </p>
-                <button id="bot-unlock-ad-btn" class="ultra-roll-btn" onclick="botUnlockTokenViaAd()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(180deg, #ec4899, #f43f5e); color: white;">📺 Watch Ad & Unlock 1 Token</button>
-                <button class="ultra-roll-btn" onclick="botStartNormally()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(180deg, #22c55e, #16a34a); color: white;">▶ Play Normal</button>
             </div>
         </div>
         <div id="victory-modal" class="modal hidden">
@@ -124,22 +113,6 @@
         </div>
     </div>
     <script src="capacitor.js"></script>
-    <script src="unity-ads-config.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.initZingBannerAd) {
-                window.initZingBannerAd({ delay: 1500 });
-            }
-        });
-        async function playInterstitialAd() {
-            if (!navigator.onLine) {
-                return;
-            }
-            if (typeof window.showZingInterstitialAd === 'function') {
-                await window.showZingInterstitialAd();
-            }
-        }
-    </script>
     <script src="how-to-play.js"></script>
     <script src="ludo-music.js"></script>
     <script src="realistic-names.js"></script>

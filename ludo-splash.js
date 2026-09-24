@@ -37,10 +37,8 @@
         const splash = document.getElementById('ludo-royal-splash');
         if (!splash) return;
 
-        const isGameScreen = window.location.pathname.includes('online.html') ||
-                             window.location.pathname.includes('bot.html') ||
-                             window.location.pathname.includes('local.html') ||
-                             window.location.pathname.includes('competition.html');
+        const isGameScreen = window.location.pathname.includes('bot.html') ||
+                             window.location.pathname.includes('local.html');
 
         if (isGameScreen || sessionStorage.getItem('ludo_booted')) {
             splash.style.display = 'none';
@@ -58,19 +56,16 @@
         setTimeout(() => {
             if (bar) bar.style.width = '70%';
             if (statusEl) statusEl.innerText = 'Loading Boards & Audio...';
-        }, 350);
+        }, 300);
 
         setTimeout(() => {
             if (bar) bar.style.width = '100%';
-            if (statusEl) statusEl.innerText = 'Welcome to Zing Arena!';
-        }, 750);
+            if (statusEl) statusEl.innerText = 'Ready to Play!';
+        }, 600);
 
         setTimeout(() => {
             hideSplash();
-            if (window.initZingBannerAd) {
-                window.initZingBannerAd({ delay: 300 });
-            }
-        }, 1100);
+        }, 900);
     }
 
     if (document.readyState === 'loading') {

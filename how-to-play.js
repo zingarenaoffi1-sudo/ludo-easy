@@ -2,27 +2,23 @@ const HowToPlayGuide = {
     rules: [
         {
             badge: "🎲 Classic Ludo Rules",
-            content: "• Each player has 4 tokens in their yard.\n• Roll a 6 on the dice to move a token onto the active track.\n• Tokens travel clockwise around the board towards their home column.\n• All 4 tokens must reach the center triangle to win the game.\n• Landing on an opponent's token captures it and returns it to their yard.\n• Safe cells (marked with a star icon) protect tokens from being captured.\n• Rolling a 6 or capturing an opponent token grants an extra bonus roll."
+            content: "• Each player starts with 4 tokens in their home yard.\n• Roll a 6 on the dice to move a token onto the active track.\n• Tokens move clockwise around the board towards their home column.\n• All 4 tokens must reach the center triangle to finish and win.\n• Landing on an opponent token captures it and returns it to their yard.\n• Safe cells marked with a Star (⭐) protect tokens from capture.\n• Rolling a 6 or capturing an opponent token grants an extra bonus roll!"
+        },
+        {
+            badge: "🤖 VS Computer Mode",
+            content: "• Play completely offline anytime without an internet connection.\n• Challenge smart AI opponents in 2-Player, 3-Player, or 4-Player setups.\n• AI bots make tactical decisions, capture tokens, and race home."
+        },
+        {
+            badge: "👥 Pass & Play (Local Multiplayer)",
+            content: "• Gather friends and family on a single device.\n• Take turns rolling the dice and moving tokens clockwise.\n• Supports 2 Players, 3 Players, and 4 Players on the same screen."
         },
         {
             badge: "⚡ Quick Mode Rules",
-            content: "• Fast-paced 5-minute action mode.\n• Only 2 tokens need to reach the home triangle to secure victory!\n• Stay aggressive and capture opponent tokens early to gain a lead."
+            content: "• Fast-paced action match.\n• The first player to bring only 2 tokens home wins the match!\n• Perfect for quick fun sessions on the go."
         },
         {
             badge: "🤝 2 vs 2 Team Mode",
-            content: "• 4 players form two rival teams: Red & Yellow vs Green & Blue.\n• Teammates cannot capture or cut each other's tokens.\n• Coordinate moves to block opponents and escort partner tokens home."
-        },
-        {
-            badge: "🤖 Play vs Computer (Smart AI)",
-            content: "• Play offline anytime without internet connection.\n• Intelligent AI bots roll automatically and execute tactical moves."
-        },
-        {
-            badge: "🎙️ Voice Mic & Quick Chat",
-            content: "• Tap the Mic button in matches to talk with other players live.\n• Tap the Chat button to send tactical shouts or throw animated emojis."
-        },
-        {
-            badge: "🏆 Pro Arena Competition",
-            content: "• Enter competitive matches using Zing Coins.\n• Win matches to collect prizes and advance up the global leaderboard."
+            content: "• 4 players form two rival teams: Red & Yellow vs Green & Blue.\n• Teammates cannot capture each other's tokens.\n• Work together to block opponents and guide your team to victory."
         }
     ],
     openModal: function() {
@@ -65,8 +61,8 @@ const HowToPlayGuide = {
                 <div style="flex: 1; overflow-y: auto; padding-right: 4px; margin-bottom: 12px;">
                     ${modesHtml}
                 </div>
-                <button onclick="HowToPlayGuide.closeModal()" class="ultra-roll-btn" style="width: 100%; padding: 10px; font-weight: 800; border-radius: 10px;">
-                    Close Guide
+                <button onclick="HowToPlayGuide.closeModal()" class="ultra-roll-btn" style="width: 100%; padding: 12px; font-weight: 800; border-radius: 10px;">
+                    Got It 👍
                 </button>
             </div>
         `;

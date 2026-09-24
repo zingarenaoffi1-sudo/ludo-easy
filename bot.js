@@ -72,62 +72,7 @@ function selectBotOpponentCount(count) {
     });
 }
 function openBotFastTrackModal() {
-    document.getElementById("startup-modal").classList.add("hidden");
-    const fastTrack = document.getElementById("bot-fast-track-modal");
-    if (fastTrack) {
-        fastTrack.classList.remove("hidden");
-    } else {
-        startBotMatchConfirmed(false);
-    }
-}
-function botUnlockTokenViaAd() {
-    if (!navigator.onLine) {
-        if (typeof window.showAdToast === 'function') {
-            window.showAdToast("⚠️ No internet connection! Please connect to internet to watch video and unlock token.");
-        } else {
-            showToast("⚠️ Internet connection required to watch video and unlock token!");
-        }
-        return;
-    }
-    const btn = document.getElementById("bot-unlock-ad-btn");
-    if (btn) btn.innerText = "⏳ Loading Video Ad...";
-    if (typeof window.showZingRewardedAd === 'function') {
-        window.showZingRewardedAd({
-            onReward: () => {
-                if (btn) btn.innerText = "📺 Watch Ad & Unlock Token";
-                const modal = document.getElementById("bot-fast-track-modal");
-                if (modal) modal.classList.add("hidden");
-                setTimeout(() => startBotMatchConfirmed(true), 50);
-            },
-            onFail: () => {
-                if (btn) btn.innerText = "📺 Watch Ad & Unlock Token";
-            }
-        });
-    } else {
-        if (!navigator.onLine) {
-            if (typeof window.showAdToast === 'function') {
-                window.showAdToast("⚠️ No internet connection!");
-            }
-            return;
-        }
-        const modal = document.getElementById("bot-fast-track-modal");
-        if (modal) modal.classList.add("hidden");
-        setTimeout(() => startBotMatchConfirmed(true), 50);
-    }
-}
-async function botStartNormally() {
-    const modal = document.getElementById("bot-fast-track-modal");
-    if (modal) modal.classList.add("hidden");
-    if (typeof playInterstitialAd === 'function') {
-        try {
-            await playInterstitialAd();
-        } catch (e) {}
-    } else if (typeof window.showZingInterstitialAd === 'function') {
-        try {
-            await window.showZingInterstitialAd();
-        } catch (e) {}
-    }
-    setTimeout(() => startBotMatchConfirmed(false), 50);
+    startBotMatchConfirmed(false);
 }
 function startBotMatchConfirmed(unlockOneToken = false) {
     const startupModal = document.getElementById("startup-modal");
@@ -524,9 +469,6 @@ function handlePlayerWin(playerColor) {
 function endMatchWithPodium() {
     clearBotWatchdog();
     soundWin.play().catch(e => {});
-    if (typeof playInterstitialAd === 'function') {
-        playInterstitialAd();
-    }
     let podiumDiv = document.getElementById("victory-podium");
     podiumDiv.innerHTML = "";
     winnersList.forEach((col, idx) => {

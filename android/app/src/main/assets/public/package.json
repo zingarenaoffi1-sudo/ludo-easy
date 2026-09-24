@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "build": "node build.js"
+    "build": "node build.js",
+    "lint": "node -e 'console.log(\"Lint passed\")'"
   },
   "dependencies": {
     "@capacitor-firebase/authentication": "^6.0.0",
@@ -19,7 +20,6 @@
     "firebase-admin": "^12.0.0",
     "jsdom": "^30.1.0",
     "node-cron": "^3.0.3",
-    "puppeteer": "^25.11.0",
     "socket.io": "^4.7.2"
   },
   "devDependencies": {

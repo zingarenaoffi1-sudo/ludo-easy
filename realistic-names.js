@@ -1,12 +1,10 @@
 const REALISTIC_NAMES_LIST = [
-    "Aarav_Sharma99", "Rahul_Verma_OP", "Priya_Queen", "Kabir_LudoKing", "Rohan_Pro47",
-    "Simran_Kaur", "Vikram_Rathore", "Ananya_Singh", "Rahul_Boss07", "Dev_Patel_Ace",
-    "Neha_Gamer", "Aditya_Rajput", "Kavya_Star", "Arjun_Malhotra", "Riya_Sen_99",
-    "Siddharth_J", "Sneha_Reddy", "Manish_Kumar9", "Pooja_Mehta", "Deepak_Chauhan",
-    "Shreya_Roy", "Karan_Thakur", "Tanvi_Deshmukh", "Nikhil_Gupta", "Meera_Iyer",
-    "Yash_Varma_7", "Pankaj_Bhardwaj", "Ankit_Agrawal", "Divya_Nair", "Harsh_Trivedi",
-    "Suman_Das", "Alex_Thunder", "Leo_Striker", "David_King", "Sophie_Star",
-    "Lucas_Viper", "Maya_Blaze", "Sam_Phantom", "Aryan_Sniper", "Isha_Vortex"
+    "Alex_Pro99", "David_King", "Sophie_Star", "Lucas_Viper", "Emma_Ace",
+    "Oliver_Champion", "Liam_Thunder", "Noah_Vortex", "Ethan_Knight", "Maya_Blaze",
+    "Ryan_Striker", "Chloe_Flash", "Daniel_Legend", "Sam_Phantom", "Mia_Shadow",
+    "Nathan_Titan", "Zoe_Specter", "Jack_Ranger", "Grace_Comet", "Leo_Sniper",
+    "Aarav_Ace", "Rahul_Pro", "Priya_Star", "Kabir_King", "Rohan_Warrior",
+    "Vikram_Titan", "Ananya_Spark", "Aditya_Falcon", "Arjun_Apex", "Riya_Glow"
 ];
 
 const REALISTIC_AVATAR_EMOJIS = [
@@ -14,8 +12,8 @@ const REALISTIC_AVATAR_EMOJIS = [
 ];
 
 const REALISTIC_RANK_TAGS = [
-    "Lvl 24 • 🇮🇳", "Lvl 38 • 🇮🇳", "Lvl 19 • 🇮🇳", "Lvl 42 • 👑", "Lvl 31 • 🔥",
-    "Lvl 27 • 🇮🇳", "Lvl 35 • ⚡", "Lvl 22 • 🎯", "Lvl 45 • 🏆", "Lvl 29 • 🇮🇳"
+    "Lv 24 • Pro", "Lv 38 • Master", "Lv 19 • Ace", "Lv 42 • Legend", "Lv 31 • Champion",
+    "Lv 27 • Veteran", "Lv 35 • Elite", "Lv 22 • Star", "Lv 45 • Grandmaster", "Lv 29 • Expert"
 ];
 
 const REALISTIC_CHAT_PHRASES = [

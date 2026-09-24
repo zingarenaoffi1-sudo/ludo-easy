@@ -3,7 +3,6 @@ import re
 import shutil
 
 def configure_gradle_release():
-    # 1. Update android/build.gradle
     root_gradle = "android/build.gradle"
     if os.path.exists(root_gradle):
         with open(root_gradle, "r", encoding="utf-8") as f:
@@ -13,29 +12,22 @@ def configure_gradle_release():
         with open(root_gradle, "w", encoding="utf-8") as f:
             f.write(root)
 
-    # 2. Update android/app/build.gradle
     app_gradle = "android/app/build.gradle"
     if os.path.exists(app_gradle):
         with open(app_gradle, "r", encoding="utf-8") as f:
             app = f.read()
-        
-        # Add Unity Ads SDK dependency
-        if "com.unity3d.ads:unity-ads" not in app:
-            unity_dep = '\n    implementation "com.unity3d.ads:unity-ads:4.12.5"\n'
-            app = app.replace("dependencies {", "dependencies {" + unity_dep)
 
-        # Ensure repositories have mavenCentral()
+        # Remove any unity ads remnants
+        app = re.sub(r'implementation\s+["\']com\.unity3d\.ads:unity-ads:[^"\']+["\']', '', app)
+
         if "mavenCentral()" not in app:
             app = app.replace("repositories {", "repositories {\n    mavenCentral()\n    google()")
-        
-        # Read environment variables for signing if set, else defaults
+
         k_pass = (os.environ.get("KEYSTORE_PASSWORD") or "").strip() or "android"
         k_alias = (os.environ.get("KEY_ALIAS") or "").strip() or "androiddebugkey"
         k_keypass = (os.environ.get("KEY_PASSWORD") or "").strip() or "android"
 
-        # Update signing config cleanly
         if "signingConfigs {" in app:
-            # Replace existing release signingConfig values with current build credentials
             app = re.sub(r'storeFile file\([^)]+\)', 'storeFile file("debug.keystore")', app)
             app = re.sub(r'storePassword "[^"]+"', f'storePassword "{k_pass}"', app)
             app = re.sub(r'keyAlias "[^"]+"', f'keyAlias "{k_alias}"', app)
@@ -63,34 +55,24 @@ android {{
             app += signing_cfg
         with open(app_gradle, "w", encoding="utf-8") as f:
             f.write(app)
-    print("Gradle, Unity Ads SDK, and release signing configured successfully via prepare-android.py")
+    print("Gradle and release signing configured successfully via prepare-android.py")
 
 def main():
     manifest_path = "android/app/src/main/AndroidManifest.xml"
     if os.path.exists(manifest_path):
         with open(manifest_path, "r", encoding="utf-8") as f:
             content = f.read()
-        
-        # Strip any old AdMob metadata if present
+
+        # Strip any old AdMob/Ads metadata if present
         content = re.sub(r'<meta-data\s+android:name="com\.google\.android\.gms\.ads\.APPLICATION_ID"[^>]*/>', '', content)
         content = re.sub(r'<meta-data\s+android:name="com\.google\.android\.gms\.ads\.DELAY_APP_MEASUREMENT_INIT"[^>]*/>', '', content)
+        content = re.sub(r'<uses-permission android:name="android\.permission\.RECORD_AUDIO"[^/]*/>', '', content)
+        content = re.sub(r'<uses-permission android:name="android\.permission\.MODIFY_AUDIO_SETTINGS"[^/]*/>', '', content)
+        content = re.sub(r'<uses-permission android:name="com\.google\.android\.gms\.permission\.AD_ID"[^/]*/>', '', content)
 
-        perms = (
-            '\n    <uses-permission android:name="android.permission.INTERNET"/>'
-            '\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>'
-            '\n    <uses-permission android:name="android.permission.RECORD_AUDIO"/>'
-            '\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>'
-            '\n    <application'
-        )
         if "android.permission.INTERNET" not in content:
-            content = content.replace("<application", perms)
-        else:
-            if "android.permission.RECORD_AUDIO" not in content:
-                content = content.replace("<application", '\n    <uses-permission android:name="android.permission.RECORD_AUDIO"/>\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>\n    <application')
-            if "android.permission.ACCESS_NETWORK_STATE" not in content:
-                content = content.replace("<application", '\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <application')
-        if 'android:hardwareAccelerated' not in content:
-            content = content.replace('<application', '<application android:hardwareAccelerated="true"')
+            content = content.replace("<application", '\n    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <application')
+
         with open(manifest_path, "w", encoding="utf-8") as f:
             f.write(content)
 
@@ -100,74 +82,29 @@ def main():
             strings_xml = f.read()
         strings_xml = re.sub(r'<string name="app_name">[^<]*</string>', '<string name="app_name">Ludo</string>', strings_xml)
         strings_xml = re.sub(r'<string name="title_activity_main">[^<]*</string>', '<string name="title_activity_main">Ludo</string>', strings_xml)
-        fallback_strings = (
-            '\n    <string name="default_web_client_id">554089835021-3idmc196ket8k4buadpj7d7oobq1ka4f.apps.googleusercontent.com</string>'
-            '\n    <string name="google_app_id">1:554089835021:android:2052c67e88561a73d78344</string>'
-            '\n    <string name="gcm_defaultSenderId">554089835021</string>'
-            '\n    <string name="google_api_key">AIzaSyC-u0_O8nprciybxZ7uXD1EEBo4w4x9Dng</string>'
-            '\n    <string name="firebase_database_url">https://ludo-b59a8.firebaseio.com</string>'
-            '\n</resources>'
-        )
-        if "default_web_client_id" not in strings_xml:
-            strings_xml = strings_xml.replace("</resources>", fallback_strings)
         with open(strings_path, "w", encoding="utf-8") as f:
             f.write(strings_xml)
 
-    # Ensure target directory exists for UnityAdsPlugin
     pkg_dir = "android/app/src/main/java/com/zingarena/app"
     os.makedirs(pkg_dir, exist_ok=True)
 
-    plugin_dest = os.path.join(pkg_dir, "UnityAdsPlugin.java")
-    plugin_src = "android-src-unity/UnityAdsPlugin.java"
-    if os.path.exists(plugin_src):
-        shutil.copyfile(plugin_src, plugin_dest)
-        print("UnityAdsPlugin.java verified and copied to android package directory")
+    unity_plugin = os.path.join(pkg_dir, "UnityAdsPlugin.java")
+    if os.path.exists(unity_plugin):
+        try:
+            os.remove(unity_plugin)
+        except Exception:
+            pass
 
-    # Update MainActivity.java to register UnityAdsPlugin and allow WebRTC mic
     main_act_path = os.path.join(pkg_dir, "MainActivity.java")
     main_act_content = """package com.zingarena.app;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.webkit.PermissionRequest;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
-    private static final int RECORD_AUDIO_REQUEST_CODE = 1001;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        registerPlugin(UnityAdsPlugin.class);
         super.onCreate(savedInstanceState);
-
-        try {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_REQUEST_CODE);
-            }
-        } catch (Exception ignored) {}
-
-        try {
-            if (getBridge() != null && getBridge().getWebView() != null) {
-                WebView webView = getBridge().getWebView();
-                webView.setWebChromeClient(new WebChromeClient() {
-                    @Override
-                    public void onPermissionRequest(final PermissionRequest request) {
-                        runOnUiThread(() -> {
-                            try {
-                                request.grant(request.getResources());
-                            } catch (Exception e) {
-                                request.deny();
-                            }
-                        });
-                    }
-                });
-            }
-        } catch (Exception ignored) {}
     }
 }
 """
@@ -179,11 +116,10 @@ public class MainActivity extends BridgeActivity {
         with open(vars_path, "r", encoding="utf-8") as f:
             vars_content = f.read()
         if "rgcfaIncludeGoogle" not in vars_content:
-            vars_content = vars_content.replace("ext {", "ext {\n    rgcfaIncludeGoogle = true\n    rgcfaIncludeFacebook = false")
+            vars_content = vars_content.replace("ext {", "ext {\n    rgcfaIncludeGoogle = false\n    rgcfaIncludeFacebook = false")
             with open(vars_path, "w", encoding="utf-8") as f:
                 f.write(vars_content)
 
-    # Configure release signing & gradle plugins
     configure_gradle_release()
 
 if __name__ == "__main__":
